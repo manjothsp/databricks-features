@@ -23,4 +23,34 @@ Unity Catalog (Goverance)
 Delta Lake (Lakehouse)
 azure adls/S3/GCS (underlying storage)
 
- 
+
+Control Plane and Data/Compute Plane:
+============================================
+Control Plane - (UI, unity catalog ACLs, serverless )- lies in databricks account
+Data Plane - user data , classic compute
+
+
+Legacy - Hive metastore:
+======================
+each workspace has 1 hive metastore attached to it. Basic metadata management.
+challenges of hive metastore:
+1) It lacks fine grained access control
+2) no auditablity
+3) no lineage
+4) can deal with only structured data
+These limitation make it challenging to manage security and governance.
+
+unity catalog overcomes these.
+
+metastore
+catalog
+schema
+tables volumes views functions models
+
+3 level namespace
+
+Whenever a databricks workspace is created a metastore is created by default and a catalog will also be created with the workspace name.
+Any new workspace created in same region will be assigned same metastore.
+
+Catalog will have 2 schemas on creation.
+1) information_schema 2) default
