@@ -1,0 +1,22 @@
+It is not recommended to give storage location at metastore level.
+If we are skipping at metastore level , it is mandatory to give while creating catalog.
+
+Location can be given while creating schema as well and precendence will be given to schema location.
+
+For creating any new catalog , it is recommended to give a managed location where all managed data will be stored by unity catalog.
+Below are the steps to follow:
+1) Create storage account and create a container,
+2) create a databricks access connector and give it blob contributor role at storage access.
+3) Create storage credential in databricks using resource id of this connector.
+4) create external location using abfss://<PATH> and create a catalog.
+
+This is the location where managed table data will be stored.
+
+%sql
+create external location if not exists <location_name>
+url 'abfss://<EMAIL>@<EMAIL>.dfs.core.windows.net/'
+WITH (CREDENTIAL <storage_credential_name>);
+
+%sql
+create catalog if not exists catalog1
+managed location '<location abfss path>'
