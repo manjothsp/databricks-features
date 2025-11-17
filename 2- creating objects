@@ -20,3 +20,35 @@ WITH (CREDENTIAL <storage_credential_name>);
 %sql
 create catalog if not exists catalog1
 managed location '<location abfss path>'
+
+ databricks recommends managed table. Reduced storage and commute cost
+
+** Dropping tables **
+-> Managed table (metadata is lost but data can be recovered by UNDROP command in 7 days)
+ - fully governed and optimized by unity catalog
+ - faster query performance
+ - automatic table maintaince and optimize
+ - secured access for non databricks clients via shared open API
+ - supports delta and iceberg
+ - automatic upgrades to latest platform
+  * Managed table learn from read and write patterns
+
+%sql
+drop table <table name>
+
+%sql
+show tables dropped in <schema>
+
+%sql
+UNDROP table <table name>
+
+-> External table (only metadata is lost and data is untouched)
+ - unity catalog governs data access permissions but not the data lifecycle or optimization/layout.
+
+usecases for external tables:
+1) you need to register a table backed by data format which is not compatible with unity catalog, eg: csv files, json
+2) you require direct access to the data from non-databricks client. eg: snowflake
+
+unity catalog privileges are not enforced when users access data files from external systems.
+
+
