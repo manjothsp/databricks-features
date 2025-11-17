@@ -1,0 +1,26 @@
+Databricks is a company founded by founders of apache spark. It is unified data and AI platform for Data analysis, Data Engineering , Data Science and reporting needs.
+
+Challenges of traditional data platforms and how databricks solved.
+1) Integration with lot of differnt tools
+- Ingestion  (Databricks Connect)
+- processing (Lakeflow Declarative pipelines) 
+- orchestration (Lakeflow jobs)
+- Goverance (Unity Catalog) 
+2) Cluster Management was hectic and time consuming. (auto scaling, serverless)
+3) Swamp Data Lakes (Delta Lake) -(Lakehouse)
+ - No ACID transaction
+ - versioning
+ - auditing
+ - schema mismatches
+ 4) Lack of collaboration. (git integration in notebooks)
+ 5) Vendor Locking
+
+ Databricks is revolutioning the data world.
+
+
+PERSONAS -DA/DE/DS 
+Unity Catalog (Goverance)
+Delta Lake (Lakehouse)
+azure adls/S3/GCS (underlying storage)
+
+ 
