@@ -1,0 +1,16 @@
+Data Lake -> storage repository that holds vast amount of data in native format in form of files.
+
+benefits:
+============
+1) cost effective
+2) scalability
+Can hold any kind of data. structured/semi/unstructured.
+
+challenges of data lake: do not provide ACID guarantees
+========================
+ACID :
+=======
+automicity
+consistency
+isolation
+durability
