@@ -51,4 +51,17 @@ usecases for external tables:
 
 unity catalog privileges are not enforced when users access data files from external systems.
 
+CLUSTERS:
+============
+
+1) All purpose compute
+2) Job compute
+3) Pools
+4) Serverless(SQL and Python)
+5) SQL warehouse (only for SQL workloads)
+
+policies and permissions:
+Can attach/ Can restart /Can manage
+
+
 
