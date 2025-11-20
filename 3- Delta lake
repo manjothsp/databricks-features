@@ -6,7 +6,13 @@ benefits:
 2) scalability
 Can hold any kind of data. structured/semi/unstructured.
 
-challenges of data lake: do not provide ACID guarantees
+challenges of data lake: do not provide ACID guarantees, leading to data quality issues. NO versioning and no DML operations.
+======================
+
+1) job is failing while appending the new data: out of 5 new part files, only 3 were written.
+2) job is failing while overwriting the data: while overwriting original files were deleted,
+3) simultaneous read and write: while appending new files, some user try to read the data leading to inconsistency.
+
 ========================
 ACID :
 =======
@@ -14,3 +20,13 @@ automicity
 consistency
 isolation
 durability
+
+
+=======================|
+DELTA LAKE:    open source storage layer. Similar to parquet but with addition of transaction log.
+Parquet + transaction logs(_delta_log)
+
+for each write operation -> parquet files are written first and then delta_log(in json format)
+for each read operation -> delta_log is read first and then corresponding parquet files are read.
+
+All 3 scenerios above are solved by delta lake.
