@@ -30,3 +30,8 @@ for each write operation -> parquet files are written first and then delta_log(i
 for each read operation -> delta_log is read first and then corresponding parquet files are read.
 
 All 3 scenerios above are solved by delta lake.
+
+
+** When we create a managed table even after giving location at catalog level, we cannot see the underlying files from databricks using 
+dbutils.fs.ls().
+
