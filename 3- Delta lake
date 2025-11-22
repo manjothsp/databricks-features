@@ -65,7 +65,8 @@ Commits -> If job is inserting multiple records on each run, it will keep on acc
         dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/00000000000000000101.00000000000000000150.compacted.json
 
           2) After each 36 files, delta creates a checkpoint.parquet file by combining all json files.
-            Delta maintains latest checkpoint number in a new file in _delta_log folder.
+            Delta maintains latest checkpoint number in a new file in _delta_log folder. 
+        dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/_last_checkpoint
       dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/00000000000000000200.checkpoint.parquet
 
 
