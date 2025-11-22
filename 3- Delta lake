@@ -30,7 +30,8 @@ for each write operation -> parquet files are written first and then delta_log(i
 for each read operation -> delta_log is read first and then corresponding parquet files are read.
 
 All 3 scenerios above are solved by delta lake.
-
+** When we create a managed table even after giving location at catalog level, we cannot see the underlying files from databricks using 
+dbutils.fs.ls().
 
 
 Insert/Update/Delete Operations:
@@ -41,6 +42,26 @@ Insert/Update/Delete Operations:
 No new files are added as part of delete optimization
 3) Update -> updated records are kept in new parquet file and deletion vector is added for the old records. So while reading, will read new file + old file + deletion vector.
 
-** When we create a managed table even after giving location at catalog level, we cannot see the underlying files from databricks using 
-dbutils.fs.ls().
+
+TimeTravel , Vacuum and _delta_log commits:
+==========================================
+
+Delta allows time travel using versions which are checked via describe history command.
+Time travel can be done based on version or asOfTimestamp eg: table@v2
+
+Vacuum -> allows to cleanup parquet files that are no longer referenced in latest version and are older than 7 days.
+        Vacuum can impact the time travel activities.
+        Vacuum table DRY run;
+
+
+Commits -> If job is inserting multiple records on each run, it will keep on accumulating json files in _delta_log folder.
+          Now while reading latest version , it has to run through all json files.
+          Delta optimized this by 
+          1) combining multiple json files to 1 after regular interval , creating a combined.json file.
+          2) After each 36 files, delta creates a checkpoint.parquet file by combining all json files.
+            Delta maintains latest checkpoint number in a new file in _delta_log folder.
+      
+
+
+
 
