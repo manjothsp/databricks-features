@@ -52,15 +52,21 @@ Time travel can be done based on version or asOfTimestamp eg: table@v2
 Vacuum -> allows to cleanup parquet files that are no longer referenced in latest version and are older than 7 days.
         Vacuum can impact the time travel activities.
         Vacuum table DRY run;
+%sql
+spark.conf.set('spark.databricks.delta.retentionDurationCheck.enabled',False)
+%sql
+vacuum delta.`/Volumes/my_catalog/test/test_volume/test_marks/` retain 0 hours dry run
 
 
 Commits -> If job is inserting multiple records on each run, it will keep on accumulating json files in _delta_log folder.
           Now while reading latest version , it has to run through all json files.
           Delta optimized this by 
-          1) combining multiple json files to 1 after regular interval , creating a combined.json file.
+          1) combining multiple json files to 1 after regular interval , creating a compacted.json file.
+        dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/00000000000000000101.00000000000000000150.compacted.json
+
           2) After each 36 files, delta creates a checkpoint.parquet file by combining all json files.
             Delta maintains latest checkpoint number in a new file in _delta_log folder.
-      
+      dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/00000000000000000200.checkpoint.parquet
 
 
 
