@@ -32,6 +32,15 @@ for each read operation -> delta_log is read first and then corresponding parque
 All 3 scenerios above are solved by delta lake.
 
 
+
+Insert/Update/Delete Operations:
+=================================
+
+1) Insert -> when new records are inserted , new parquet file is added and a new transaction file in _delta_log
+2) Delete -> when a record is deleted, a deletion vector is added(tombstone marker), which indicates while reading data do not include the deleted record.
+No new files are added as part of delete optimization
+3) Update -> updated records are kept in new parquet file and deletion vector is added for the old records. So while reading, will read new file + old file + deletion vector.
+
 ** When we create a managed table even after giving location at catalog level, we cannot see the underlying files from databricks using 
 dbutils.fs.ls().
 
