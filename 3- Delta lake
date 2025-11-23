@@ -70,5 +70,17 @@ Commits -> If job is inserting multiple records on each run, it will keep on acc
       dbfs:/Volumes/my_catalog/test/test_volume/test_marks/_delta_log/00000000000000000200.checkpoint.parquet
 
 
+REORG command will be used to  rewrite files and remove reference of deletion vectors.
+REORG -> OPTIMIZE -> VACUUM
+
+=====================================================================================
+
+MERGE command is used to handle upserts
+
+Constraints (not null, check) can be added using ALTER table statements.
+Scenerio: We are getting 3 rows in source for merge 1 is update, 2 are new inserts.
+        Out of 2, 1 row violates the check constraint. In this case merge will fail and no new json files will be added to _delta_log folder.
+        But parquet data files are written for the success merge which do not have any impact on table data as describe history will not show these.
+
 
 
