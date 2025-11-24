@@ -82,5 +82,18 @@ Scenerio: We are getting 3 rows in source for merge 1 is update, 2 are new inser
         Out of 2, 1 row violates the check constraint. In this case merge will fail and no new json files will be added to _delta_log folder.
         But parquet data files are written for the success merge which do not have any impact on table data as describe history will not show these.
 
+================================================================================
+Schema enforcement and schema evolution:
+-> .option("mergeSchema","true")
+-> 'delta.enableTypeWideninig' ='true'
+
+
+=============================================
+columnMapping
+
+'delta.columnMapping.mode' ='name'
+
+Azure databricks supports column mapping for delta lake tables , which enables metadata-only changes to mark columns as dropped or renamed without rewriting data files.
+
 
 
