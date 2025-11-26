@@ -96,4 +96,39 @@ columnMapping
 Azure databricks supports column mapping for delta lake tables , which enables metadata-only changes to mark columns as dropped or renamed without rewriting data files.
 
 
+CDF
+===========
+Track row level changes between the versions.
+(inserts/deletes/pre-image update, post-image update.)
+
+enable property at table level during creation or later using alter:
+alter table <table_Name> set tblproperties(delta.enableChangeDataFeed = true);
+
+only from the point you enabled it, change will be tracked.
+
+-> CDF with streaming is true incremental.
+.trigger(processingTime="2 seconds") -> will not work in serverless. use availableNow = true;
+
+select * from table_changes(>tablle_name>,version)
+_commit_type,_commit_version, _comit_timestamp
+
+
+CLONING:
+============
+
+Creating a copy of table:
+1) Shallow Clone (only metadata is copied)
+2) Deep Clone (copies both metadata and data)
+
+create or replace table orders_mamnaged_sclone shallow clone orders_managed;
+it will clone from latest version and contraints are also copied.
+
+inserting new records at source has no impact on cloned table.
+modifying data in cloned table, will create its own files and no impact to source table.
+
+vacuum -> will delete only files which are not referenced.
+drop source table-> data will not be deleted for 7 days and clone will not be impacted for 7 days.
+
+
+
 
