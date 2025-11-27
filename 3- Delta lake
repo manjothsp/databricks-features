@@ -127,7 +127,24 @@ inserting new records at source has no impact on cloned table.
 modifying data in cloned table, will create its own files and no impact to source table.
 
 vacuum -> will delete only files which are not referenced.
-drop source table-> data will not be deleted for 7 days and clone will not be impacted for 7 days.
+drop source table-> data will not be deleted after 7 days and clone will not be impacted for 7 days in case of managed table.
+
+
+1) Any changes made either to deep clone or shallow clone, affects only the clone itself and not source table
+2) cloning a table is not same as CTAS as in CTAS constraints and descriptions are not copied.
+3) shallow clones on external table must be external and on managed should be managed table.
+4) for managed table, dropping source breaks the target table for shallow clone after 7 days. 
+5) shallow clones on external table are not impacted on dropping source as files are not impacted.
+6) clones can be taken for any version.
+
+create table orders deep clone orders1 as of version 3;
+
+
+
+
+
+
+
 
 
 
