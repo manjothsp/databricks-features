@@ -141,6 +141,22 @@ create table orders deep clone orders1 as of version 3;
 
 
 
+DELTA UNIFORM:
+===============
+
+Read delta table with iceberg clients.
+Parquet files remain same , it is the metadata that is diffierent.
+While creating table we have to mention 3 properties.
+1) 'delta.columnMapping.mode'  = 'name'
+2) 'delta.enableIcebergCompactV2' ='true'
+3) 'delta.universalFormat.enabledFormats' = 'iceberg'
+
+
+describe formatted <table NAME>;
+
+
+
+
 
 
 
