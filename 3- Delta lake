@@ -155,6 +155,26 @@ While creating table we have to mention 3 properties.
 describe formatted <table NAME>;
 
 
+AUTO OPTIMIZE for small file problem:
+==================================
+
+min files which are present to trigger auto optimize -> spark.databricks.delta.autocompact.minNumFiles
+spark.databricks.delta.autoCompact.maxFileSize  -> this property file after optimize should not be greater than this limit.
+
+
+Partitioning and Data skipping:
+=======================
+
+Partitioning helps to skip reading files when query is run on partiton columns.
+
+challenges with partitioning:
+1) only apply on low cardinality columns
+2) if usage pattern changes partioning need to be changed,
+3) to change partitioning table must be rewritten
+4) can lead to data skew
+
+Zorder: 
+
 
 
 
