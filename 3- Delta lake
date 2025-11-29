@@ -164,7 +164,7 @@ spark.databricks.delta.autoCompact.maxFileSize  -> this property file after opti
 
 Partitioning and Data skipping:
 =======================
-
+Applied on low cardinality columns
 Partitioning helps to skip reading files when query is run on partiton columns.
 
 challenges with partitioning:
@@ -174,12 +174,52 @@ challenges with partitioning:
 4) can lead to data skew
 
 Zorder: 
+colocate the related data in same files for faster reads using file pruning.
+If you except a column to be commonly used in filters then use.
+
+optimize + zorder
+
+LIQUID ClUSTERING:
+=============================================
 
 
+add: alter table <table name> cluster by AUTO
+remove: alter table <table name> cluster by NONE
 
 
+You can benefit from Liquid Clustering in these situations:
 
+* Your tables are frequently filtered using columns that have many unique values.
+* Your tables have uneven data distribution (data skew).
+* Your access patterns change over time and are hard to predict.
+* Your tables receive many concurrent writes.
+* Your tables normally require heavy maintenance and tuning to keep performance stable.
+* you can enable liquid clustering on a brand new table or on a existing table
 
+after liquid clustering is enabled, run optimize jobs as usual to incrementally cluster new data.
+if you have predictive optimization enabled. optimize runs automatically.
+
+ideal data layout
+- files between 16 mb to 1 gb
+- non overlapping data ranges
+- cost of maintaining the data layout must be cheap
+
+Predictive optimization
+=========================
+On Azure Databricks, Unity Catalog managed tables automate many maintenance tasks so you don’t have to run them manually. 
+Databricks runs these in the background using serverless compute, and you’re billed under a serverless jobs SKU.
+
+Here’s what gets automated:
+
+1. OPTIMIZE
+Automatically triggers incremental clustering for Liquid-enabled tables.
+Helps improve query performance by organizing data and optimizing file sizes.
+
+2. VACUUM
+Removes old data files that are no longer needed. Helps reduce your overall storage cost.
+
+3. ANALYZE
+Updates table statistics automatically.Improves query planning and performance.
 
 
 
