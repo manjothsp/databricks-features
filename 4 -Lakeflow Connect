@@ -1,0 +1,32 @@
+Lakeflow:
+  * unified platform for 
+    - data ingestion (Lakeflow connect)
+    - transformation (Lakeflow declarative pipelines) earlier known as DLT
+    - orchestration (Lakeflow Jobs) 
+
+
+LAKEFLOW CONNECT:
+======================
+
+Earlier organizations had to use lot of 3rd party tools for ingestion into lakehouse.
+With Lakeflow connect we can have efficient ingestion pipelines all within databricks.
+
+* Standard Connectors ->  ingest from cloud storage (ALDS , S3 , volumes)
+* Managed Connectors ->  ingest from SAAS applications and databases.
+
+- Batch load
+- Incremental batch load
+- Incremental streaming
+
+
+Data Ingestion from cloud storage:
+1) CTAS
+2) Copy into
+3) Auto loader
+
+
+CTAS - Create table as Select
+===========
+
+All the data is ingested each time.
+
