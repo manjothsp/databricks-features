@@ -25,8 +25,49 @@ Data Ingestion from cloud storage:
 3) Auto loader
 
 
-CTAS - Create table as Select
-===========
+CTAS - Create table as Select 
+========================
 
-All the data is ingested each time.
+All the data is ingested each time. NO incremental support.
+
+select * from 
+read_files(
+'<PATH>',
+format => 'csv,
+schema => 'order_id BIGINT, order_date STRING, customer_id BIGINT, order_status STRING, _rescued_data STRING',
+header => true,
+mode => 'PERMISSIVE',
+columnNameOfCorruptRecord => '_resuced_data'
+)
+
+
+MODE: -> Defines how spark should behave when bad record in encountered
+ - PERMISSIVE -> keeps job running and put bad data into _rescued_data.
+ - FAILFAST -> aborts the job on first bad record.
+ - DROPMALFORMED -> silently drop bad records
+
+
+COPY INTO
+===============
+ loads data from cloud file location to delta lake
+This is retryable and idempotent operation. It stores logs in _copy_into_log inside table dir.
+
+Copy into is best suited when dealing with thousands of files.
+
+copy into orders
+from '<PATH>'
+FILEFORMAT = csv
+FORMATOPTIONS(
+'inferSchema' = 'true',
+'header' = 'true',
+'mergeSchema' = 'true',
+'delimiter' = ','
+)
+COPY_OPTIONS (
+'mergeSchema' = 'true'
+);
+
+
+
+
 
