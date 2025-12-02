@@ -68,6 +68,37 @@ COPY_OPTIONS (
 );
 
 
+Challenges with copy into ->
+ - copy into is not performant when we have millions of files coming each hour or billions of files to backfill
+ - what if files are comming every 2 mins.
+
+Auto Loader 
+==============
+-> more advanced technique to incrementally  and efficiently process new files.
+ - It can handle incrementally both batch and stream
+ - It can load files from any cloud storage.
 
 
+orders_df  = spark.readStream \
+             .format("cloudFiles") \
+             .option("cloudFiles.format","csv") \
+             .option("cloudFiles.inferSchema","true") \
+             .option("cloudFiles.inferColumnTypes","true") \
+             .option("cloudFiles.schemaLocation", <check pointing path>)
+             .load(<path to files>)
+
+orders_df.writeStream \
+         .format("delta") \
+         .option("checkpointLoation" , <check  point path>) \
+         .option("mergeSchema","true") \
+         .outputMode("append") \
+         .trigger(availableNow = true) \
+         .toTable(<table name>)
+
+
+checkpointLoation helps to track schema and resume from where the job was left. Metadata for the files are persisited in RockDB,
+a key value strore db.
+
+ * When schema is evolved job fails and on retry it is success. 
+ * _resuced_column contains details of the corrupt records.
 
