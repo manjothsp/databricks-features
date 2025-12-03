@@ -102,3 +102,19 @@ a key value strore db.
  * When schema is evolved job fails and on retry it is success. 
  * _resuced_column contains details of the corrupt records.
 
+
+We can manually define schema in autoloader. -> it will not fail job on schema evolution but move it to manually created column _rescued_data.
+Give schema hints
+add _metadata.file_name column
+
+
+Schema Evolution Modes:
+ .option("cloudFiles.schemaEvolutionMode", <MODE>) in stremRead
+
+ - NONE -> does not evolve the schema, new columns are ignored and data is not rescued unless rescuedDataColumn is set. No failure.
+ - failOnNewColumns -> failed on new columns and does not work unless fixed.
+ - rescue -> did not evolve and bring columns to _rescue_data column. Anything that does not match structure will be moved to _rescued_data. Stream does not fail.
+ - addNewColumns (Default) -> fail first time on new columns and retry fixes it. Unmatched records kept in _rescued_data column.
+
+
+when you define schema NONE is default mode and when inferSchema it will be addNewColumns.
