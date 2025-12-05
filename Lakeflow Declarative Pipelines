@@ -1,0 +1,11 @@
+Earlier it was called DLT.
+
+A framework to build ETL pipelines with declarative approach.
+Databricks has made it super easy for Data Engineers by introducing Lakeflow Declarative Pipelines.
+You tell what to do instead of how to do.
+
+System is intelligent enough to manage infra, dependencies, lineage , merge and SCD2 for us.
+
+
+
+
